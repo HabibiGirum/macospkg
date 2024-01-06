@@ -99,4 +99,18 @@ jobs:
                 downloads_${{ matrix.os}}_${{matrix.architecture}}_${{github.sha}}
             restore-keys: |
                 downloads_${{ matrix.os}}_${{matrix.architecture}}
+        - name: Update the git submodules
+          working-directory: ${{steps.build_paths.outputs.SOURCE }}
+
+          run: |
+            git submodule sync --recursive
+
+        - name: Install build Dependencies
+          run: |
+            brew install \
+                ccache \
+                flex \
+                bison \
+                coreutils \
+                gnu-sed
                 
