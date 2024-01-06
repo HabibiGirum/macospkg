@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+env:
+    PACKAGING_REPO: https://github.com/osquery/osquery-packaging
+    PACKAGING_COMMIT: 4caa2c54f0d893c1efa47932571046bbce156c52
+    SUBMODULE_CACHE_VERSION: 2
 
 jobs:
     build_macos:
@@ -75,3 +79,24 @@ jobs:
             
             restore-keys: |
                 ccache_${{ matrix.os }}_${{ matrix.architecture }}_${{ matrix.build_type }}
+        - name: update the cache (git submodules)
+          uses: actions/cache@v3
+          with:
+            path: ${{ steps.build_paths.outputs.SOURCE}}/.git/modules
+
+            key: |
+                gitmodules_${{matrix.os}}_${{matrix.architecture}}_${{env.SUBMODULE_CACHE_VERSION}}_${{github.sha}}
+            restore-keys: |
+                gitmodules_${{ matrix.os}}_${{matrix.architecture}}_${{env.SUBMODULE_CACHE_VERSION}}
+        
+        - name: Update the cache (Downloads)
+          uses: actions/cache@v3
+          with:
+            path: ${{ steps.build_paths.outputs.DOWNLOADS }}
+
+
+            key: |
+                downloads_${{ matrix.os}}_${{matrix.architecture}}_${{github.sha}}
+            restore-keys: |
+                downloads_${{ matrix.os}}_${{matrix.architecture}}
+                
