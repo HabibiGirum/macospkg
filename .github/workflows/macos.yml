@@ -100,7 +100,7 @@ jobs:
             restore-keys: |
                 downloads_${{ matrix.os}}_${{matrix.architecture}}
         - name: Update the git submodules
-          working-directory: ${{steps.build_paths.outputs.SOURCE }}
+          working-directory: ${{steps.build_paths.outputs.REL_SOURCE }}
 
           run: |
             git submodule sync --recursive
@@ -113,4 +113,3 @@ jobs:
                 bison \
                 coreutils \
                 gnu-sed
-                
