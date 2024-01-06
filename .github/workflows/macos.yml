@@ -50,7 +50,7 @@ jobs:
                      ${rel_package_build_path}
 
             echo "SOURCE=$(pwd)/${rel_src_path}" >> $GITHUB_OUTPUT
-            echo "REL_SOURCE=$(pwd){rel_src_path}" >> $GITHUB_OUTPUT
+            echo "REL_SOURCE=$(pwd)/${rel_src_path}" >> $GITHUB_OUTPUT
             echo "BINARY=$(pwd)/${rel_build_path}" >> $GITHUB_OUTPUT
             echo "CCACHE=$(pwd)/${rel_ccache_path}" >> $GITHUB_OUTPUT
             echo "DOWNLOADS=$(pwd)/${rel_downloads_path}" >> $GITHUB_OUTPUT
