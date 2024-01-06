@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Copy Launchd .plist file
+cp com.vistar.osqueryd.plist /Library/LaunchDaemons/
+
+# Load the Launchd job
+launchctl load /Library/LaunchDaemons/com.vistar.osqueryd.plist
+
+# Additional tasks or messages as needed
+echo "YourPackage has been successfully installed."
+
+exit 0
