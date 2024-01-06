@@ -146,4 +146,31 @@ jobs:
             sudo xcode-select -s "${xcode_path}"
 
             echo "DEPLOYMENT_TARGET=10.15" >> $GITHUB_OUTPUT
+        - name: Select the debug symbols options
+          shell: bash
+          id: debug_symbols_settings
+          run: |
+            if [["${{ matrix.build_type}}"=="Debug"]]; then
+                echo "VALUE=OFF" >> $GITHUB_OUTPUT
+            else
+                echo "VALUE=OFF" >> $GITHUB_OUTUPT
+            fi
 
+        - name: Configure the project
+          shell: bash
+          working-directory: ${{ steps.build_paths.outputs.BINARY}}
+
+          env:
+            CCACHE_DIR: ${{steps.build_paths.outputs.CCACHE}}
+
+          run: |
+            cmake -G "Unix Makefiles" \
+                -DCMAKE_C_COMPILER=clang \
+                -DCMAKE_CXX_COMPILER=clang++ \
+                -DCMAKE_OSX_ARCHITECTURES="${{matrix.architecture}}" \
+                -DCMAKE_OSX_DEPLOYMENT_TARGET="${{steps.xcode_selector.outputs.DEPLOYMENT_TARGET}}" \
+                -DCMAKE_BUILD_TYPE:STRING="${{ matrix.build_type }}" \
+                -DOSQUERY_BUILD_TESTS=ON \
+                -DOSQUERY_NO_DEBUG_SYMBOLS=${{ steps.debug_symbols_settings.outputs.VALUE }} \
+                -DPython3_ROOT_DIR=${{ steps.install_test_deps.outputs.PYTHON_ROOT }} \
+                ${{ steps.build_paths.outputs.SOURCE }}
