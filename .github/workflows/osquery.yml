@@ -1,0 +1,31 @@
+name: Build Osquery for macOS
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        runs-on: macos-latest
+
+
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Install macOS prerequisites
+              run: |
+                xcode-select --install
+                brew install ccache git git-lfs cmake python clang-format flex bison
+                pip3 install --user setuptools pexpect==3.3 psutil timeout_decorator six thrift==0.11.0 osquery
+
+            - name: Download and build osquery sources
+              run: |
+                git clone https://github.com/osquery/osquery
+                cd osquery
+                mkdir build
+                cd build
+                cmake -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+                cmake --build . -j $(sysctl -n hw.ncpu)
+
+            
