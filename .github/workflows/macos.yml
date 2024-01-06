@@ -1,0 +1,29 @@
+name: Build osquery for macOS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    build_macos:
+
+        runs-on: ${{ matrix.os}}
+
+        strategy:
+            matrix:
+                build_type: [Release, Debug]
+                architecture: [x84_64,arm64]
+                os: [macos-12]
+
+
+                exclude:
+                    - build_type: Debug
+                      architecture: arm64
+
+        steps:
+        - name: Select the build job count
+          shell: bash
+          id: build_job_count
+          run: |
+            echo "VALUE=$(($(sysctl -n hw.logicalcpu) + 1))" >> $GITHUB_OUTPUT
