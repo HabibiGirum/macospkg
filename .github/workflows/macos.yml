@@ -58,9 +58,13 @@ jobs:
             echo "PACKAGE_DATA=$(pwd)/${rel_package_data_path}" >> $GITHUB_OUTPUT
             echo "REL_PACKAGE_BUILD=${rel_package_build_path}" >> $GITHUB_OUTPUT
             echo "PACKAGE_BUILD=$(pwd)/${rel_package_build_path}" >> $GITHUB_OUTPUT
+        - name: Debug
+          run: |
+            ls -la ${{ steps.build_paths.outputs.REL_SOURCE }}
+            ls -la ${{ steps.build_paths.outputs.REL_SOURCE }}/..
+          
         - name: Clone the osquery repository
           working-directory: ${{ steps.build_paths.outputs.REL_SOURCE }}
           run: |
+            ls -la
             git clone https://github.com/osquery/osquery.git
-         
-         
