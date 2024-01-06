@@ -30,9 +30,15 @@ jobs:
           cd build
           cmake -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
           cmake --build . -j $(sysctl -n hw.ncpu)
+      - name: Generating the package data
+        run: |
+            cd osquery/build
+            mkdir package_data
+            export DESTDIR=$(pwd)/package_data
+            cmake --build . --target install
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
           name: osquery
-          path: osquery/build
+          path: osquery/build/package_data
