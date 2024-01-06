@@ -64,3 +64,14 @@ jobs:
           working-directory: ${{ steps.build_paths.outputs.REL_SOURCE }}
           run: |
             git clone https://github.com/osquery/osquery.git
+
+        - name: update the cache (ccache)
+          uses: actions/cache@v3
+          with:
+            path: ${{ steps.build_paths.outputs.CCACHE }}
+
+            key: |
+                ccache_${{matrix.os }}_${{ matrix.architecture }}_${{matrix.build_type}}_${{ github.sha }}
+            
+            restore-keys: |
+                ccache_${{ matrix.os }}_${{ matrix.architecture }}_${{ matrix.build_type }}
