@@ -99,11 +99,11 @@ jobs:
                 downloads_${{ matrix.os}}_${{matrix.architecture}}_${{github.sha}}
             restore-keys: |
                 downloads_${{ matrix.os}}_${{matrix.architecture}}
-        - name: Update the git submodules
-          working-directory: ${{steps.build_paths.outputs.REL_SOURCE }}
+        # - name: Update the git submodules
+        #   working-directory: ${{steps.build_paths.outputs.REL_SOURCE }}
 
-          run: |
-            git submodule sync --recursive
+        #   run: |
+            # git submodule sync --recursive
 
         - name: Install build Dependencies
           run: |
