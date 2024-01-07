@@ -1,37 +1,61 @@
-name: Build and Package osquery for macOS
+
+
+
+
+
+name: Build osquery for macOS
 
 on:
-    push:
-        branches:
-            - main
+  push:
+    branches:
+      - master
 
 jobs:
-    build:
-        runs-on: macos-latest
+  build:
+    runs-on: macos-latest
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-        steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v2
+      - name: Install macOS prerequisites
+        run: |
+          # Check if Xcode command-line tools are already installed
+          xcode-select -p || xcode-select --install
 
-            - name: Install Xcode coummand-line tools
-              run: sudo xcode-select --install
+          # Install other prerequisites using Homebrew
+          brew install ccache git git-lfs cmake python clang-format flex bison
+          pip3 install --user setuptools pexpect==3.3 psutil timeout_decorator six thrift==0.11.0 osquery
 
-            - name: Install osquery dependencies
-              run: |
-                brew install cmake glog gflags thrift
-                pip3 install --user setuptools pexpect==3.3 psutil timeout_decorator six thrift==0.11.0 osquery
+      - name: Download and build osquery source
+        run: |
+          git clone https://github.com/osquery/osquery
+          cd osquery
+          mkdir build
+          cd build
+          cmake -DCMAKE_OSX_DEPLOYMENT_TARGET=10.15 -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ ..
+          cmake --build . -j $(sysctl -n hw.ncpu)
+      - name: Generating the package data
+        run: |
+            cd osquery/build
+            mkdir package_data
+            export DESTDIR=$(pwd)/package_data
+            cmake --build . --target install
 
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: osquery
+          path: osquery/build/package_data
 
-            - name: Build osquery
-              run: |
-                git clone https://github.com/osquery/osquery.git
-                cd osquery
-                make deps
-                make -j$(sysctl -n hw.logicalcpu)
+      - name: Create Package
+        run: |
+            mkdir -p pkg-root/usr/local/bin
+            cp osquery/build/package_data/opt/osquery/bin/{osqueryi,osqueryd} pkg-root/usr/local/bin
+            pkgbuild --root pkg-root --identifier com.vistar.osquery --version 1.0 --install-location /usr/local/bin osquery.pkg
 
-            - name: Create Package
-              run: |
-                mkdir -p pkg-root/usr/local/bin
-                cp osquery/build/{osqueryi,osqueryd} pkg-root/usr/local/bin
-                pkgbuild --root pkg-root --identifier com.vistar.osquery --version 1.0 --install-location /usr/local/bin osquery.pkg
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+            name: osquery
+            path: ./osquery.pkg
