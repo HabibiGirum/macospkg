@@ -8,7 +8,7 @@ name: Build osquery for macOS
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:
