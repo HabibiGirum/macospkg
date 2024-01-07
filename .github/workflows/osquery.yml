@@ -42,3 +42,29 @@ jobs:
         with:
           name: osquery
           path: osquery/build/package_data
+  seleinum:
+    runs-on: macos-latest
+
+    steps:
+        - name: Checkout repository
+          uses: actions/checkout@v2
+        - name: Set up Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: 3.x  
+        - name: Install dependencies
+          run: |
+            pip install pyinstaller
+           
+        - name: install
+          run: |
+            pip install selenium
+        - name: Build executable
+          id: selenium
+          run: |
+            pyinstaller --onefile my_selenium.py
+        - name: Upload artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: selenium
+            path: ./dist/my_selenium 
