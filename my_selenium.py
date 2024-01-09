@@ -1,25 +1,18 @@
 import subprocess
 import json
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import os
 
 def get_unique_id():
     try:
-        # Check possible paths for osqueryi
-        possible_paths = [
-            '/usr/local/bin/osqueryi',  # Assuming osquery is installed via brew
-            '/path/to/your/osqueryi',   # Replace with the actual path if not in PATH
-        ]
+        # Check the possible path for osqueryi
+        osquery_path = '/usr/local/bin/osqueryi'
 
-        osquery_path = None
-
-        for path in possible_paths:
-            if os.path.exists(path):
-                osquery_path = path
-                break
-
-        if not osquery_path:
-            print("osqueryi not found in the specified paths.")
+        if not os.path.exists(osquery_path):
+            print("osqueryi not found in the specified path.")
             return None
 
         # Run the osqueryi command to retrieve unique_id from system_info
@@ -49,11 +42,12 @@ if __name__ == "__main__":
         print("Redirect URL:", redirect_url)
 
         # Selenium script
-        chrome_driver_path = '/path/to/chromedriver'  # Replace with the actual path to chromedriver
-
+        
+        chrome_driver_path = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+        
         os.environ['webdriver.chrome.driver'] = chrome_driver_path
-        driver = webdriver.Chrome(executable_path=chrome_driver_path)
-        # subprocess.Popen([chrome_driver_path, redirect_url])
+        driver = webdriver.Chrome()
+        # subprocess.Popen([chrome_driver_path,redirect_url])
         url = redirect_url  # Use the redirect URL
         driver.get(url)
 
