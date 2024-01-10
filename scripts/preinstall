@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# preinstall script for osquery.pkg
+#
+
+# Display the welcome message
+/usr/bin/osascript << EOT
+tell application "System Events"
+  activate
+  display dialog "Welcome to the osquery installation." buttons {"Continue"} default button "Continue" with icon note with title "osquery Installation"
+end tell
+EOT

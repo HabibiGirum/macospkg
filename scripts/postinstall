@@ -1,12 +1,14 @@
-#!/bin/bash
+#!/bin/sh
+#
+# postinstall script for osquery.pkg
+#
 
-# Copy Launchd .plist file
-cp com.vistar.osqueryd.plist /Library/LaunchDaemons/
-
-# Load the Launchd job
-launchctl load /Library/LaunchDaemons/com.vistar.osqueryd.plist
-
-# Additional tasks or messages as needed
-echo "YourPackage has been successfully installed."
-
-exit 0
+# Display the license agreement
+/usr/bin/osascript << EOT
+tell application "System Events"
+  activate
+  set theAlertText to "License Agreement"
+  set theAlertMessage to (do shell script "cat /path/to/License.txt")
+  display dialog theAlertMessage buttons {"Agree", "Disagree"} default button "Disagree" cancel button "Disagree" with icon caution with title theAlertText
+end tell
+EOT
