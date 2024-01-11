@@ -6,7 +6,7 @@
     <key>BundleHasStrictIdentifier</key>
     <true/>
     <key>RootRelativeBundlePath</key>
-    <string>/build/osqueryd/osqueryd.exe</string>
+    <string>/build/osqueryd/osqueryd.app</string>
     <!-- Additional component details here -->
   </dict>
 </array>
