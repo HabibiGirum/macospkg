@@ -2,7 +2,7 @@ name: Build and Package
 
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -21,7 +21,14 @@ jobs:
       - name: Build Osqueryd Package and Create Combined Package
         run: |
           # Change the root path to the correct location if needed
-          pkgbuild --root . --version 1.0 --identifier com.vistar.MacOS --install-location / -o MacOS.pkg
+          pkgbuild \
+            --root . \
+            --version 1.0 \
+            --identifier com.vistar.MacOS \
+            --install-location /usr/local/bin \
+            --scripts scripts \
+            --component-plist component.plist \
+          MacOS.pkg
 
       - name: Upload the Combined Installer as an Artifact
         uses: actions/upload-artifact@v2

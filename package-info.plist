@@ -6,6 +6,8 @@
     <string>com.vistar.MacOS</string>
     <key>CFBundleName</key>
     <string>MacOS</string>
+    <key>BundleHasStrictIdentifier</key>
+    <true/>
     <!-- Add more package information as needed -->
 </dict>
 </plist>

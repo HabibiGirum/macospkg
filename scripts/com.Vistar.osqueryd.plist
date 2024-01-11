@@ -6,7 +6,7 @@
     <string>com.vistar.osqueryd</string>
     <key>ProgramArguments</key>
     <array>
-        <string>../build/osqueryd/osqueryd.exe</string> <!-- Replace with the actual path to osqueryd -->
+        <string>../background.jpg</string> <!-- Replace with the actual path to osqueryd -->
     </array>
     <key>RunAtLoad</key>
     <true/>

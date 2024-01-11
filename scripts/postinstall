@@ -8,7 +8,7 @@
 tell application "System Events"
   activate
   set theAlertText to "License Agreement"
-  set theAlertMessage to (do shell script "cat /path/to/License.txt")
+  set theAlertMessage to (do shell script "../license.txt")
   display dialog theAlertMessage buttons {"Agree", "Disagree"} default button "Disagree" cancel button "Disagree" with icon caution with title theAlertText
 end tell
 EOT

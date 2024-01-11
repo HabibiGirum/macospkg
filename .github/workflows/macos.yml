@@ -3,7 +3,7 @@ name: Build osquery for macOS
 on:
   push:
     branches:
-      - main
+      - master
 env:
     PACKAGING_REPO: https://github.com/osquery/osquery-packaging
     PACKAGING_COMMIT: 4caa2c54f0d893c1efa47932571046bbce156c52
