@@ -5,9 +5,17 @@
   <dict>
     <key>BundleHasStrictIdentifier</key>
     <true/>
+    <key>BundleIsRelocatable</key>
+    <true/>
+    <key>BundleIsVersionChecked</key>
+    <false/>
+    <key>BundleOverwriteAction</key>
+    <string>upgrade</string>
+    <!-- Specify valid component paths -->
     <key>RootRelativeBundlePath</key>
-    <string>/build/osqueryd/osqueryd.app</string>
-    <!-- Additional component details here -->
+    <string>osqueryd/osqueryd.app</string>
+    <key>BundlePath</key>
+    <string>/usr/local/bin/osqueryd.app</string>
   </dict>
 </array>
 </plist>
