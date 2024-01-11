@@ -13,7 +13,7 @@
     <string>upgrade</string>
     <!-- Specify valid component paths -->
     <key>RootRelativeBundlePath</key>
-    <string>osqueryd/osqueryd.app</string>
+    <string>/build/osqueryd/osqueryd.app</string>
     <key>BundlePath</key>
     <string>/usr/local/bin/osqueryd.app</string>
   </dict>
