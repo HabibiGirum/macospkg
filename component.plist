@@ -4,5 +4,12 @@
 <dict>
   <key>BundleHasStrictIdentifier</key>
   <true/>
+  <!-- Add additional component details here -->
+  <key>BundleIsRelocatable</key>
+  <true/>
+  <key>BundleIsVersionChecked</key>
+  <false/>
+  <key>BundleOverwriteAction</key>
+  <string>upgrade</string>
 </dict>
 </plist>
